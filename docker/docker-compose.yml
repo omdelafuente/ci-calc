@@ -1,0 +1,31 @@
+version: '3'
+
+networks:
+  cinetwork:
+    driver: bridge
+
+volumes:
+  jenkins-data:
+  war-data:
+
+services:
+  sonarqube:
+    image: library/sonarqube:lts
+    networks:
+      - cinetwork
+    ports:
+      - 9000:9000
+    container_name: ci-sonarqube
+  jenkins:
+    image: jenkins/jenkins:lts
+    networks:
+      - cinetwork
+    ports:
+      - 8082:8080
+    privileged: true
+    user: root
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - war-data:/var/war
+    container_name: ci-jenkins
+
