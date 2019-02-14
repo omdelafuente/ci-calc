@@ -7,6 +7,7 @@ networks:
 volumes:
   jenkins-data:
   war-data:
+  nexus-data:
 
 services:
   sonarqube:
@@ -16,6 +17,15 @@ services:
     ports:
       - 9000:9000
     container_name: ci-sonarqube
+  nexus:
+    image: sonatype/nexus
+    volumes:
+      - nexus-data:/sonatype-work
+    ports:
+      - 8081:8081
+    networks:
+      - cinetwork
+    container_name: ci-nexus
   jenkins:
     image: jenkins/jenkins:lts
     networks:
