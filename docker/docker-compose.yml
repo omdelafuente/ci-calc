@@ -38,4 +38,13 @@ services:
       - jenkins-data:/var/jenkins_home
       - war-data:/var/war
     container_name: ci-jenkins
+  tomcat:
+    image: tomcat:8.5-alpine
+    networks:
+      - cinetwork
+    ports:
+      - 8080:8080
+    volumes:
+      - war-data:/usr/local/tomcat/webapps
+    container_name: ci-tomcat
 
